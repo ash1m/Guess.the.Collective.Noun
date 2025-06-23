@@ -23,7 +23,6 @@ const Index = () => {
   const [usedQuestions, setUsedQuestions] = useState<number[]>([]);
   const [isAnswered, setIsAnswered] = useState(false);
   const [gameComplete, setGameComplete] = useState(false);
-  const [showNextButton, setShowNextButton] = useState(false);
 
   const loadNewQuestion = () => {
     const { question, index } = getRandomQuestion(usedQuestions);
@@ -33,11 +32,19 @@ const Index = () => {
     setCorrectAnswer(null);
     setAttempts(1);
     setIsAnswered(false);
-    setShowNextButton(false);
   };
 
   const handleStartGame = () => {
     setGameStarted(true);
+  };
+
+  const handleNextQuestion = () => {
+    if (questionNumber >= TOTAL_QUESTIONS) {
+      setGameComplete(true);
+    } else {
+      setQuestionNumber(prev => prev + 1);
+      loadNewQuestion();
+    }
   };
 
   const handleAnswerSelect = (answer: string) => {
@@ -56,8 +63,9 @@ const Index = () => {
         return newStreak;
       });
       
+      // Automatically advance to next question after 2 seconds
       setTimeout(() => {
-        setShowNextButton(true);
+        handleNextQuestion();
       }, 2000);
     } else {
       // Wrong answer
@@ -65,7 +73,7 @@ const Index = () => {
       
       if (attempts >= 3) {
         setTimeout(() => {
-          setShowNextButton(true);
+          handleNextQuestion();
         }, 3000);
       } else {
         setTimeout(() => {
@@ -75,15 +83,6 @@ const Index = () => {
           setCorrectAnswer(null);
         }, 2000);
       }
-    }
-  };
-
-  const handleNextQuestion = () => {
-    if (questionNumber >= TOTAL_QUESTIONS) {
-      setGameComplete(true);
-    } else {
-      setQuestionNumber(prev => prev + 1);
-      loadNewQuestion();
     }
   };
 
@@ -139,17 +138,6 @@ const Index = () => {
             attempts={attempts}
             isAnswered={isAnswered}
           />
-        )}
-        
-        {showNextButton && (
-          <div className="mt-6 text-center animate-fade-in">
-            <Button
-              onClick={handleNextQuestion}
-              className="w-full max-w-md h-12 text-lg font-bold bg-gradient-to-r from-green-500 to-blue-500 hover:from-green-600 hover:to-blue-600 text-white rounded-xl transition-all duration-300 transform hover:scale-105"
-            >
-              {questionNumber >= TOTAL_QUESTIONS ? 'Finish Game' : 'Next Question'}
-            </Button>
-          </div>
         )}
       </div>
     </div>

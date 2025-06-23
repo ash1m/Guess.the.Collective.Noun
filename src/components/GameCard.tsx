@@ -23,7 +23,7 @@ const GameCard: React.FC<GameCardProps> = ({
 }) => {
   const getButtonVariant = (option: string) => {
     if (!isAnswered) return 'outline';
-    if (option === correctAnswer) return 'default';
+    if (option === correctAnswer && (selectedAnswer === correctAnswer || attempts >= 3)) return 'default';
     if (option === selectedAnswer && selectedAnswer !== correctAnswer) return 'destructive';
     return 'outline';
   };
@@ -35,7 +35,7 @@ const GameCard: React.FC<GameCardProps> = ({
       return `${baseClass} hover:bg-blue-50 active:scale-95`;
     }
     
-    if (option === correctAnswer) {
+    if (option === correctAnswer && (selectedAnswer === correctAnswer || attempts >= 3)) {
       return `${baseClass} bg-green-500 hover:bg-green-600 text-white scale-105 shadow-lg`;
     }
     

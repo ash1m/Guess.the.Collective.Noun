@@ -10,7 +10,7 @@ const SplashScreen: React.FC<SplashScreenProps> = ({ onStartGame }) => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-red-200 via-blue-200 to-yellow-200 flex flex-col items-center justify-center p-4">
       <div className="text-center animate-fade-in">
-        <h1 className="font-rubik-moonrocks text-8xl md:text-6xl lg:text-7xl text-gray-800 mb-8 leading-tight">
+        <h1 className="font-rubik-moonrocks text-5xl md:text-6xl lg:text-7xl text-gray-800 mb-8 leading-tight">
           Guess the
           <br />
           Collective Noun

@@ -5,11 +5,13 @@ import GameCard from '@/components/GameCard';
 import ScoreBoard from '@/components/ScoreBoard';
 import ProgressBar from '@/components/ProgressBar';
 import GameOverScreen from '@/components/GameOverScreen';
+import SplashScreen from '@/components/SplashScreen';
 import { Button } from '@/components/ui/button';
 
 const TOTAL_QUESTIONS = 20;
 
 const Index = () => {
+  const [gameStarted, setGameStarted] = useState(false);
   const [currentQuestion, setCurrentQuestion] = useState<CollectiveNoun | null>(null);
   const [selectedAnswer, setSelectedAnswer] = useState<string | null>(null);
   const [correctAnswer, setCorrectAnswer] = useState<string | null>(null);
@@ -32,6 +34,10 @@ const Index = () => {
     setAttempts(1);
     setIsAnswered(false);
     setShowNextButton(false);
+  };
+
+  const handleStartGame = () => {
+    setGameStarted(true);
   };
 
   const handleAnswerSelect = (answer: string) => {
@@ -88,12 +94,19 @@ const Index = () => {
     setQuestionNumber(1);
     setUsedQuestions([]);
     setGameComplete(false);
+    setGameStarted(false);
     loadNewQuestion();
   };
 
   useEffect(() => {
-    loadNewQuestion();
-  }, []);
+    if (gameStarted) {
+      loadNewQuestion();
+    }
+  }, [gameStarted]);
+
+  if (!gameStarted) {
+    return <SplashScreen onStartGame={handleStartGame} />;
+  }
 
   if (gameComplete) {
     return (
@@ -109,10 +122,6 @@ const Index = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-purple-50 p-4 py-8">
       <div className="max-w-md mx-auto">
-        <h1 className="text-3xl font-bold text-center text-gray-800 mb-6">
-          Guess the Collective Noun
-        </h1>
-        
         <ProgressBar current={questionNumber} total={TOTAL_QUESTIONS} />
         
         <ScoreBoard 

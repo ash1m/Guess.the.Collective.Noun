@@ -1,4 +1,3 @@
-
 import type { Config } from "tailwindcss";
 
 export default {
@@ -20,7 +19,7 @@ export default {
 		},
 		extend: {
 			fontFamily: {
-				'rubik-moonrocks': ['Rubik Moonrocks', 'cursive'],
+				'permanent-marker': ['Permanent Marker', 'cursive'],
 			},
 			colors: {
 				border: 'hsl(var(--border))',
